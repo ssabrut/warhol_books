@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
+import HomeScreen from './screens/HomeScreen';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -45,6 +46,13 @@ export default function App() {
               elevation: 0,
               height: StatusBar.currentHeight - 25,
             },
+          }} />
+
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            header: () => null
           }} />
       </Stack.Navigator>
     </NavigationContainer>

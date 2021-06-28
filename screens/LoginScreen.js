@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
 import * as Font from 'expo-font';
-
+import AppLoading from 'expo-app-loading';
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -9,13 +9,15 @@ export default class LoginScreen extends Component {
     this.state = {
       username: "",
       password: "",
+      fontLoaded: false,
     }
   }
 
-  componentDidMount() {
-    Font.loadAsync({
+  async componentDidMount() {
+    await Font.loadAsync({
       "viga-regular": require('./../assets/fonts/Viga-Regular.ttf'),
     });
+    this.setState({ fontLoaded: true });
   }
 
   user_login = () => {
@@ -31,7 +33,7 @@ export default class LoginScreen extends Component {
       })
     }).then((response) => response.json()).then((responseJSON) => {
       if (responseJSON.user_data.message === "success") {
-        Alert.alert("Success", "User are in database");
+        this.props.navigation.navigate("HomeScreen");
       } else {
         Alert.alert("Failed", "User are not in database");
       }
@@ -44,32 +46,36 @@ export default class LoginScreen extends Component {
     const { navigation } = this.props;
     const dismissKeyboard = () => Keyboard.dismiss();
 
-    return (
-      <TouchableWithoutFeedback onPress={dismissKeyboard}>
-        <View style={styles.loginScreen}>
-          <Text style={styles.brand}>Warhol Book</Text>
-          <View style={styles.formWrapper} >
-            <TextInput
-              style={styles.input}
-              placeholder="Username"
-              onChangeText={data => this.setState({ username: data })} />
+    if (this.state.fontLoaded) {
+      return (
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
+          <View style={styles.loginScreen}>
+            <Text style={styles.brand}>Warhol Book</Text>
+            <View style={styles.formWrapper} >
+              <TextInput
+                style={styles.input}
+                placeholder="Username"
+                onChangeText={data => this.setState({ username: data })} />
 
-            <TextInput
-              style={[styles.input, { marginVertical: 24 }]}
-              placeholder="Password"
-              onChangeText={data => this.setState({ password: data })} />
-            <TouchableOpacity style={styles.button} onPress={this.user_login}>
-              <Text style={styles.buttonText}>Log In</Text>
-            </TouchableOpacity>
+              <TextInput
+                style={[styles.input, { marginVertical: 24 }]}
+                placeholder="Password"
+                onChangeText={data => this.setState({ password: data })} />
+              <TouchableOpacity style={styles.button} onPress={this.user_login}>
+                <Text style={styles.buttonText}>Log In</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.changeRegister}>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate("RegisterScreen")}>
+                <Text style={styles.changeRegisterText}>Don't have an account? <Text style={styles.changeRegisterTextSpan}>Sign Up</Text></Text>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-          <View style={styles.changeRegister}>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate("RegisterScreen")}>
-              <Text style={styles.changeRegisterText}>Don't have an account? <Text style={styles.changeRegisterTextSpan}>Sign Up</Text></Text>
-            </TouchableWithoutFeedback>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    );
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return <AppLoading />;
+    }
   }
 }
 
