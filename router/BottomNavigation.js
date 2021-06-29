@@ -15,7 +15,7 @@ export default function Tab() {
         position: "absolute",
         bottom: 0,
         left: 0,
-      }
+      },
     }}>
       <Tab.Screen
         name="HomeScreen"
@@ -50,7 +50,7 @@ export default function Tab() {
                 resizeMode="contain"
                 source={focused ? require('./../assets/icons/user_focused.png') : require('./../assets/icons/user.png')} />
             </View>
-          )
+          ),
         }} />
     </Tab.Navigator>
   );
