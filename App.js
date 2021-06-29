@@ -7,6 +7,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
 import HomeScreen from './screens/HomeScreen';
+import Tab from './navigator/BottomNavigation';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -46,6 +47,13 @@ export default function App() {
               elevation: 0,
               height: StatusBar.currentHeight - 25,
             },
+          }} />
+
+        <Stack.Screen
+          name="BottomNavigation"
+          component={Tab}
+          options={{
+            header: () => null
           }} />
 
         <Stack.Screen

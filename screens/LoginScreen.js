@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, TouchableOpacity, Keyboard, Alert } from 'react-native';
+
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ export default class LoginScreen extends Component {
       })
     }).then((response) => response.json()).then((responseJSON) => {
       if (responseJSON.user_data.message === "success") {
-        this.props.navigation.navigate("HomeScreen");
+        this.props.navigation.navigate("BottomNavigation");
       } else {
         Alert.alert("Failed", "User are not in database");
       }
@@ -49,9 +51,9 @@ export default class LoginScreen extends Component {
     if (this.state.fontLoaded) {
       return (
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
-          <View style={styles.loginScreen}>
-            <Text style={styles.brand}>Warhol Book</Text>
+          <View style={styles.container}>
             <View style={styles.formWrapper} >
+              <Text style={styles.brand}>Warhol Book</Text>
               <TextInput
                 style={styles.input}
                 placeholder="Username"
@@ -61,14 +63,15 @@ export default class LoginScreen extends Component {
                 style={[styles.input, { marginVertical: 24 }]}
                 placeholder="Password"
                 onChangeText={data => this.setState({ password: data })} />
+
               <TouchableOpacity style={styles.button} onPress={this.user_login}>
                 <Text style={styles.buttonText}>Log In</Text>
               </TouchableOpacity>
-            </View>
-            <View style={styles.changeRegister}>
-              <TouchableWithoutFeedback onPress={() => navigation.navigate("RegisterScreen")}>
-                <Text style={styles.changeRegisterText}>Don't have an account? <Text style={styles.changeRegisterTextSpan}>Sign Up</Text></Text>
-              </TouchableWithoutFeedback>
+              <View style={styles.changeRegister}>
+                <TouchableWithoutFeedback onPress={() => navigation.navigate("RegisterScreen")}>
+                  <Text style={styles.changeRegisterText}>Don't have an account? <Text style={styles.changeRegisterTextSpan}>Sign Up</Text></Text>
+                </TouchableWithoutFeedback>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -80,17 +83,43 @@ export default class LoginScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  loginScreen: {
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     backgroundColor: "#fff",
   },
+  formWrapper: {
+    width: "80%",
+    height: "25%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   brand: {
     textAlign: "center",
     fontSize: 36,
     fontFamily: "viga-regular",
+    marginBottom: 24,
+  },
+  input: {
+    borderWidth: 1,
+    width: "100%",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  button: {
+    width: "100%",
+    paddingVertical: 12,
+    backgroundColor: "#1258DC",
+    borderRadius: 8,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   changeRegister: {
     width: "100%",
@@ -104,33 +133,5 @@ const styles = StyleSheet.create({
   changeRegisterTextSpan: {
     fontWeight: "bold",
     color: "#000",
-  },
-
-  // login form
-  formWrapper: {
-    width: "80%",
-    height: "25%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 24,
-  },
-  input: {
-    borderWidth: 1,
-    width: "100%",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-  },
-  button: {
-    width: "100%",
-    paddingVertical: 12,
-    backgroundColor: "#1258DC",
-    borderRadius: 4,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });

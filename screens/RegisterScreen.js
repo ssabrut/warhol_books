@@ -23,9 +23,9 @@ export default class RegisterScreen extends Component {
 
     return (
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
-        <View style={styles.registerScreen}>
-          <Text style={styles.brand}>Enter your personal information</Text>
+        <View style={styles.container}>
           <View style={styles.formWrapper}>
+            <Text style={styles.brand}>Enter your personal information</Text>
             <View>
               <TextInput
                 style={styles.input}
@@ -53,38 +53,32 @@ export default class RegisterScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  registerScreen: {
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
   },
-  brand: {
-    position: "absolute",
-    top: "20%",
-    left: "10%",
-    fontSize: 32,
-    fontWeight: "bold",
-    width: "80%",
-  },
-
-  // register form
   formWrapper: {
     width: "80%",
+  },
+  brand: {
+    fontSize: 32,
+    fontWeight: "bold",
   },
   input: {
     borderWidth: 1,
     width: "100%",
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 8,
     marginTop: 16,
   },
   button: {
     width: "80%",
     paddingVertical: 12,
     backgroundColor: "#1258DC",
-    borderRadius: 4,
+    borderRadius: 8,
     marginTop: 24,
   },
   buttonText: {
