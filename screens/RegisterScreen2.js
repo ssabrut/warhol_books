@@ -15,7 +15,7 @@ export default class RegisterScreen2 extends Component {
   }
 
   user_register = () => {
-    fetch("http://192.168.43.184/warhol_books-web-service/register.php", {
+    fetch("https://thickened-state.000webhostapp.com/warhol_books--web-service/login.php", {
       method: "POST",
       headers: {
         "Accept": "application/json",

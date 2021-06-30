@@ -7,7 +7,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
 import HomeScreen from './screens/HomeScreen';
-import Tab from './navigator/BottomNavigation';
+import Tab from './router/BottomNavigation';
 
 export default function App() {
   const Stack = createStackNavigator();
