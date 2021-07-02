@@ -8,7 +8,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
 import HomeScreen from './screens/HomeScreen';
 import Tab from './router/BottomNavigation';
-import ItemDetail from './screens/ItemDetail';
+import ItemDetail from './assets/components/ItemDetail';
 
 export default function App() {
   const Stack = createStackNavigator();

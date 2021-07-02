@@ -49,17 +49,27 @@ export default class ItemDetail extends Component {
             <View style={styles.review}>
               <View style={{ flexDirection: "row" }}>
                 <Text style={styles.total_rating}>{this.state.book_rating.rating}</Text>
-                <Image style={styles.star} source={require('./../assets/icons/star.png')} />
+                <Image style={styles.star} source={require('./../icons/star.png')} />
               </View>
               <Text style={styles.total_review}>{this.state.book_rating.total_review} reviews</Text>
             </View>
             <View style={styles.category}>
-              <Image style={styles.book_img} source={require('./../assets/icons/book.png')} />
+              <Image style={styles.book_img} source={require('./../icons/book.png')} />
               <Text style={styles.category_name}>{item.category}</Text>
             </View>
             <View style={styles.total}>
               <Text style={styles.total_page}>{item.total_page}</Text>
               <Text style={styles.text_span}>Pages</Text>
+            </View>
+          </View>
+          <View style={styles.about_book}>
+            <View style={styles.about_header}>
+              <Text style={styles.about_text}>About this book</Text>
+              <Image style={styles.arrow} source={require('./../icons/right-arrow.png')} />
+            </View>
+            <Text numberOfLines={4} style={styles.description}>{item.description}</Text>
+            <View style={{ alignSelf: "flex-start" }}>
+              <Text style={styles.genre_text}>{item.genre}</Text>
             </View>
           </View>
         </View>
@@ -158,5 +168,36 @@ const styles = StyleSheet.create({
   },
   text_span: {
     marginTop: 4,
+  },
+  about_book: {
+    width: "85%",
+    marginTop: 32,
+  },
+  about_header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  about_text: {
+    fontSize: 22,
+    fontWeight: "bold",
+  },
+  arrow: {
+    width: 24,
+    height: 24,
+    resizeMode: "contain",
+    marginTop: 4,
+  },
+  description: {
+    fontSize: 16,
+  },
+  genre_text: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 24,
+    borderWidth: 0.75,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 16,
   },
 });
