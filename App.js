@@ -8,6 +8,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import RegisterScreen2 from './screens/RegisterScreen2';
 import HomeScreen from './screens/HomeScreen';
 import Tab from './router/BottomNavigation';
+import ItemDetail from './screens/ItemDetail';
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -31,14 +32,22 @@ export default function App() {
           name="RegisterScreen"
           component={RegisterScreen}
           options={{
-            header: () => null
+            title: "Sign Up",
+            headerTintColor: "gray",
+            headerTitleAlign: "center",
+            headerStyle: {
+              backgroundColor: "#fff",
+              shadowOpacity: 0,
+              elevation: 0,
+              height: StatusBar.currentHeight - 25,
+            },
           }} />
 
         <Stack.Screen
           name="RegisterScreen2"
           component={RegisterScreen2}
           options={{
-            title: "Sign Up",
+            title: "",
             headerTintColor: "gray",
             headerTitleAlign: "center",
             headerStyle: {
@@ -61,6 +70,19 @@ export default function App() {
           component={HomeScreen}
           options={{
             header: () => null
+          }} />
+
+        <Stack.Screen
+          name="ItemDetail"
+          component={ItemDetail}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "#fff",
+              shadowOpacity: 0,
+              elevation: 0,
+              height: StatusBar.currentHeight - 25,
+            },
           }} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -7,15 +7,14 @@ export default class RegisterScreen2 extends Component {
 
     this.state = {
       full_name: this.props.route.params.full_name,
-      address: this.props.route.params.address,
-      phone_number: this.props.route.params.phone_number,
+      email: this.props.route.params.email,
       username: "",
       password: "",
     }
   }
 
   user_register = () => {
-    fetch("https://thickened-state.000webhostapp.com/warhol_books--web-service/login.php", {
+    fetch("https://warholbooks.000webhostapp.com/register.php", {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -23,8 +22,7 @@ export default class RegisterScreen2 extends Component {
       },
       body: JSON.stringify({
         full_name: this.state.full_name,
-        address: this.state.address,
-        phone_number: this.state.phone_number,
+        email: this.state.email,
         username: this.state.username,
         password: this.state.password,
       })

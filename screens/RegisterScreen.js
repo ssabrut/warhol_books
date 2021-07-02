@@ -7,8 +7,7 @@ export default class RegisterScreen extends Component {
 
     this.state = {
       full_name: "",
-      address: "",
-      phone_number: "",
+      email: "",
     }
   }
 
@@ -17,8 +16,7 @@ export default class RegisterScreen extends Component {
     const dismissKeyboard = () => Keyboard.dismiss();
     let personal_data = {
       full_name: this.state.full_name,
-      address: this.state.address,
-      phone_number: this.state.phone_number,
+      email: this.state.email,
     };
 
     return (
@@ -34,13 +32,8 @@ export default class RegisterScreen extends Component {
 
               <TextInput
                 style={styles.input}
-                placeholder="Address"
-                onChangeText={data => this.setState({ address: data })} />
-
-              <TextInput
-                style={styles.input}
-                placeholder="Phone number"
-                onChangeText={data => this.setState({ phone_number: data })} />
+                placeholder="Email"
+                onChangeText={data => this.setState({ email: data })} />
             </View>
           </View>
           <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("RegisterScreen2", personal_data)}>

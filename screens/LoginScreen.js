@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, TouchableO
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
+
 export default class LoginScreen extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +24,7 @@ export default class LoginScreen extends Component {
   }
 
   user_login = () => {
-    fetch("https://thickened-state.000webhostapp.com/warhol_books--web-service/login.php", {
+    fetch("https://warholbooks.000webhostapp.com/login.php", {
       method: "POST",
       headers: {
         "Accept": "application/json",
