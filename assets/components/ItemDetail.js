@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 
 export default class ItemDetail extends Component {
   constructor(props) {
@@ -7,6 +7,8 @@ export default class ItemDetail extends Component {
 
     this.state = {
       book_rating: "",
+      book_id: this.props.route.params.item.book_id,
+      user_id: this.props.route.params.user_id,
     }
   }
 
@@ -18,10 +20,28 @@ export default class ItemDetail extends Component {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        book_id: this.props.route.params.book_id,
+        book_id: this.state.book_id,
       })
     }).then((response) => response.json()).then((responseJSON) => {
       this.setState({ book_rating: responseJSON });
+    }).catch((e) => {
+      console.error(e);
+    });
+  }
+
+  transaction = () => {
+    fetch("https://warholbooks.000webhostapp.com/transaction.php", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: this.state.user_id,
+        book_id: this.state.book_id,
+      })
+    }).then((response) => response.json()).then((responseJSON) => {
+      console.log("book buyed");
     }).catch((e) => {
       console.error(e);
     });
@@ -32,46 +52,72 @@ export default class ItemDetail extends Component {
   }
 
   render() {
-    const item = this.props.route.params;
+    const item = this.props.route.params.item;
+    const Header = () => {
+      return (
+        <View style={styles.header}>
+          <Image style={styles.image} source={{ uri: item.image }} />
+          <View style={styles.desc}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.author_name}>{item.author}</Text>
+            <Text style={styles.publisher_name}>Published by {item.publisher}</Text>
+          </View>
+        </View>
+      );
+    }
+
+    const Attribute = () => {
+      return (
+        <View style={styles.attribute}>
+          <View style={styles.review}>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.total_rating}>{this.state.book_rating.rating}</Text>
+              <Image style={styles.star} source={require('./../icons/star.png')} />
+            </View>
+            <Text style={styles.total_review}>{this.state.book_rating.total_review} reviews</Text>
+          </View>
+          <View style={styles.category}>
+            <Image style={styles.book_img} source={require('./../icons/book.png')} />
+            <Text style={styles.category_name}>{item.category}</Text>
+          </View>
+          <View style={styles.total}>
+            <Text style={styles.total_page}>{item.total_page}</Text>
+            <Text style={styles.text_span}>Pages</Text>
+          </View>
+        </View>
+      );
+    }
+
+    const AboutBook = () => {
+      return (
+        <View style={styles.about_book}>
+          <View style={styles.about_header}>
+            <Text style={styles.about_text}>About this book</Text>
+            <Image style={styles.arrow} source={require('./../icons/right-arrow.png')} />
+          </View>
+          <Text numberOfLines={4} style={styles.description}>{item.description}</Text>
+          <View style={{ alignSelf: "flex-start" }}>
+            <Text style={styles.genre_text}>{item.genre}</Text>
+          </View>
+        </View>
+      );
+    }
+
+    const BuyButton = () => {
+      return (
+        <TouchableOpacity style={styles.buyButton} onPress={this.transaction}>
+          <Text style={styles.buyText}>Buy Book</Text>
+        </TouchableOpacity>
+      );
+    }
 
     return (
       <ScrollView style={styles.scrollView}>
         <View style={styles.container}>
-          <View style={styles.header}>
-            <Image style={styles.image} source={{ uri: item.image }} />
-            <View style={styles.desc}>
-              <Text style={styles.title}>{item.title}</Text>
-              <Text style={styles.author_name}>{item.author}</Text>
-              <Text style={styles.publisher_name}>Published by {item.publisher}</Text>
-            </View>
-          </View>
-          <View style={styles.attribute}>
-            <View style={styles.review}>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={styles.total_rating}>{this.state.book_rating.rating}</Text>
-                <Image style={styles.star} source={require('./../icons/star.png')} />
-              </View>
-              <Text style={styles.total_review}>{this.state.book_rating.total_review} reviews</Text>
-            </View>
-            <View style={styles.category}>
-              <Image style={styles.book_img} source={require('./../icons/book.png')} />
-              <Text style={styles.category_name}>{item.category}</Text>
-            </View>
-            <View style={styles.total}>
-              <Text style={styles.total_page}>{item.total_page}</Text>
-              <Text style={styles.text_span}>Pages</Text>
-            </View>
-          </View>
-          <View style={styles.about_book}>
-            <View style={styles.about_header}>
-              <Text style={styles.about_text}>About this book</Text>
-              <Image style={styles.arrow} source={require('./../icons/right-arrow.png')} />
-            </View>
-            <Text numberOfLines={4} style={styles.description}>{item.description}</Text>
-            <View style={{ alignSelf: "flex-start" }}>
-              <Text style={styles.genre_text}>{item.genre}</Text>
-            </View>
-          </View>
+          <Header />
+          <Attribute />
+          <BuyButton />
+          <AboutBook />
         </View>
       </ScrollView>
     );
@@ -149,6 +195,7 @@ const styles = StyleSheet.create({
     width: "30%",
     alignItems: "center",
     borderLeftWidth: 0.75,
+    borderRightWidth: 0.75,
   },
   book_img: {
     width: 24,
@@ -161,7 +208,6 @@ const styles = StyleSheet.create({
   total: {
     width: "30%",
     alignItems: "center",
-    borderLeftWidth: 0.75,
   },
   total_page: {
     fontWeight: "bold",
@@ -173,7 +219,7 @@ const styles = StyleSheet.create({
   },
   about_book: {
     width: "85%",
-    marginTop: 32,
+    marginTop: 24,
   },
   about_header: {
     flexDirection: "row",
@@ -201,5 +247,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 16,
+  },
+  buyButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1258DC",
+    borderRadius: 8,
+    width: "85%",
+    height: 48,
+    marginTop: 24,
+  },
+  buyText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });

@@ -7,6 +7,7 @@ export default class ItemSlider extends Component {
 
 		this.state = {
 			books: "",
+			user_id: this.props.user_id,
 		}
 	}
 
@@ -24,37 +25,99 @@ export default class ItemSlider extends Component {
 		});
 	}
 
+	bookUnder10 = ({ item }) => {
+		if (item.price < 10) {
+			return (
+				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", { item: item, user_id: this.state.user_id })}>
+					<View style={styles.card}>
+						<Image style={styles.cardImg} source={{ uri: item.image }} />
+						<View style={styles.bookDesc}>
+							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+							<View style={{ flexDirection: "row" }}>
+								<Text style={styles.rating}>{item.rating}</Text>
+								<Image style={styles.star} source={require('./../icons/star.png')} />
+							</View>
+							<Text style={styles.price}>${String(item.price)}</Text>
+						</View>
+					</View>
+				</TouchableWithoutFeedback>
+			);
+		}
+	}
+
+	newKnowledgeRelease = ({ item }) => {
+		if (item.category === "Knowledge") {
+			return (
+				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", item)}>
+					<View style={styles.card}>
+						<Image style={styles.cardImg} source={{ uri: item.image }} />
+						<View style={styles.bookDesc}>
+							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+							<View style={{ flexDirection: "row" }}>
+								<Text style={styles.rating}>{item.rating}</Text>
+								<Image style={styles.star} source={require('./../icons/star.png')} />
+							</View>
+							<Text style={styles.price}>${String(item.price)}</Text>
+						</View>
+					</View>
+				</TouchableWithoutFeedback>
+			);
+		}
+	}
+
+	novelForYou = ({ item }) => {
+		if (item.rating > 4) {
+			return (
+				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", item)}>
+					<View style={styles.card}>
+						<Image style={styles.cardImg} source={{ uri: item.image }} />
+						<View style={styles.bookDesc}>
+							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+							<View style={{ flexDirection: "row" }}>
+								<Text style={styles.rating}>{item.rating}</Text>
+								<Image style={styles.star} source={require('./../icons/star.png')} />
+							</View>
+							<Text style={styles.price}>${String(item.price)}</Text>
+						</View>
+					</View>
+				</TouchableWithoutFeedback>
+			);
+		}
+	}
+
 	componentDidMount() {
 		this.get_all_books();
 	}
 
 	render() {
-		return (
-			<View style={styles.content}>
+		const Section = ({ text }) => {
+			return (
 				<View style={styles.sectionContent}>
-					<Text style={styles.section}>Books under 10$</Text>
+					<Text style={styles.section}>{text}</Text>
 					<Image style={styles.arrowIcon} source={require('./../icons/right-arrow.png')} />
 				</View>
+			);
+		}
+
+		const Slider = ({ _function }) => {
+			return (
 				<FlatList
 					keyExtractor={(item) => String(item.book_id)}
 					data={this.state.books}
 					horizontal={true}
 					showsHorizontalScrollIndicator={false}
-					renderItem={({ item }) => (
-						<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", item)}>
-							<View style={styles.card}>
-								<Image style={styles.cardImg} source={{ uri: item.image }} />
-								<View style={styles.bookDesc}>
-									<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
-									<View style={{ flexDirection: "row" }}>
-										<Text style={styles.rating}>{item.rating}</Text>
-										<Image style={styles.star} source={require('./../icons/star.png')} />
-									</View>
-									<Text style={styles.price}>{String(item.price)}</Text>
-								</View>
-							</View>
-						</TouchableWithoutFeedback>
-					)} />
+					renderItem={_function} />
+			);
+		}
+
+		return (
+			<View style={styles.content}>
+				<Section text="Book under 10$" />
+				<Slider _function={this.bookUnder10} />
+				<Section text="Latest knowledge books" />
+				<Slider _function={this.newKnowledgeRelease} />
+				<Section text="Top review books" />
+				<Slider _function={this.novelForYou} />
 			</View>
 		);
 	}

@@ -4,6 +4,14 @@ import { StyleSheet, View, ScrollView, TextInput, Image } from 'react-native';
 import ItemSlider from '../assets/components/ItemSlider';
 
 export default class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user_id: this.props.user_id,
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -12,7 +20,7 @@ export default class HomeScreen extends Component {
           <TextInput style={styles.searchBar} placeholder="Search Books" />
         </View>
         <ScrollView style={styles.scrollView}>
-          <ItemSlider navigation={this.props.navigation} />
+          <ItemSlider navigation={this.props.navigation} user_id={this.state.user_id} />
         </ScrollView>
       </View>
     );

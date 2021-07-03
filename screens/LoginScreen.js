@@ -10,6 +10,7 @@ export default class LoginScreen extends Component {
     super(props);
 
     this.state = {
+      user_id: "",
       username: "",
       password: "",
       fontLoaded: false,
@@ -36,7 +37,8 @@ export default class LoginScreen extends Component {
       })
     }).then((response) => response.json()).then((responseJSON) => {
       if (responseJSON.user_data.message === "success") {
-        this.props.navigation.navigate("BottomNavigation");
+        this.setState({ user_id: responseJSON.user_data.user_id });
+        this.props.navigation.navigate("BottomNavigation", this.state.user_id);
       } else {
         Alert.alert("Failed", "User are not in database");
       }
