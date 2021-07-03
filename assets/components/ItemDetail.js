@@ -42,7 +42,7 @@ export default class ItemDetail extends Component {
             <View style={styles.desc}>
               <Text style={styles.title}>{item.title}</Text>
               <Text style={styles.author_name}>{item.author}</Text>
-              <Text style={styles.publisher_name}>{item.publisher}</Text>
+              <Text style={styles.publisher_name}>Published by {item.publisher}</Text>
             </View>
           </View>
           <View style={styles.attribute}>
@@ -111,11 +111,13 @@ const styles = StyleSheet.create({
   author_name: {
     color: "#1258DC",
     fontWeight: "bold",
-    marginTop: 4,
+    marginTop: 8,
+    fontSize: 16,
   },
   publisher_name: {
     color: "gray",
     fontWeight: "bold",
+    fontSize: 16,
   },
   attribute: {
     flexDirection: "row",
