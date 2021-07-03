@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
 
+
 export default class ItemSlider extends Component {
 	constructor(props) {
 		super(props);
@@ -25,63 +26,39 @@ export default class ItemSlider extends Component {
 		});
 	}
 
+	Card = ({ item }) => {
+		return (
+			<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", { item: item, user_id: this.state.user_id })}>
+				<View style={styles.card}>
+					<Image style={styles.cardImg} source={{ uri: item.image }} />
+					<View style={styles.bookDesc}>
+						<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
+						<View style={{ flexDirection: "row" }}>
+							<Text style={styles.rating}>{item.rating}</Text>
+							<Image style={styles.star} source={require('./../icons/star.png')} />
+						</View>
+						<Text style={styles.price}>${String(item.price)}</Text>
+					</View>
+				</View>
+			</TouchableWithoutFeedback>
+		);
+	}
+
 	bookUnder10 = ({ item }) => {
 		if (item.price < 10) {
-			return (
-				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", { item: item, user_id: this.state.user_id })}>
-					<View style={styles.card}>
-						<Image style={styles.cardImg} source={{ uri: item.image }} />
-						<View style={styles.bookDesc}>
-							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
-							<View style={{ flexDirection: "row" }}>
-								<Text style={styles.rating}>{item.rating}</Text>
-								<Image style={styles.star} source={require('./../icons/star.png')} />
-							</View>
-							<Text style={styles.price}>${String(item.price)}</Text>
-						</View>
-					</View>
-				</TouchableWithoutFeedback>
-			);
+			return this.Card({ item });
 		}
 	}
 
 	newKnowledgeRelease = ({ item }) => {
 		if (item.category === "Knowledge") {
-			return (
-				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", item)}>
-					<View style={styles.card}>
-						<Image style={styles.cardImg} source={{ uri: item.image }} />
-						<View style={styles.bookDesc}>
-							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
-							<View style={{ flexDirection: "row" }}>
-								<Text style={styles.rating}>{item.rating}</Text>
-								<Image style={styles.star} source={require('./../icons/star.png')} />
-							</View>
-							<Text style={styles.price}>${String(item.price)}</Text>
-						</View>
-					</View>
-				</TouchableWithoutFeedback>
-			);
+			return this.Card({ item });
 		}
 	}
 
 	novelForYou = ({ item }) => {
 		if (item.rating > 4) {
-			return (
-				<TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("ItemDetail", item)}>
-					<View style={styles.card}>
-						<Image style={styles.cardImg} source={{ uri: item.image }} />
-						<View style={styles.bookDesc}>
-							<Text numberOfLines={1} style={styles.title}>{item.title}</Text>
-							<View style={{ flexDirection: "row" }}>
-								<Text style={styles.rating}>{item.rating}</Text>
-								<Image style={styles.star} source={require('./../icons/star.png')} />
-							</View>
-							<Text style={styles.price}>${String(item.price)}</Text>
-						</View>
-					</View>
-				</TouchableWithoutFeedback>
-			);
+			return this.Card({ item });
 		}
 	}
 
